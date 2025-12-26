@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حسابي - متجر خدمات السوشيال ميديا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">🚀 SMM Store</a>
+
+                <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="services.html">الخدمات</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="account.html">حسابي</a></li>
+                        <li class="user-profile" style="display: none;"></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Account Section -->
+    <section class="form-section">
+        <div class="container">
+            <!-- Login Required Message -->
+            <div id="login-required" class="card" style="display: none;">
+                <div class="text-center">
+                    <h2>🔒 يجب تسجيل الدخول</h2>
+                    <p>يرجى تسجيل الدخول لعرض حسابك وطلباتك</p>
+                    <div id="g_id_signin_center" style="display: flex; justify-content: center; margin-top: 2rem;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Dashboard -->
+            <div id="account-dashboard" style="display: none;">
+                <!-- User Profile Card -->
+                <div class="card">
+                    <div class="user-profile" id="profile-header">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <h3>الإجراءات السريعة</h3>
+                    <div class="flex gap-2" style="flex-wrap: wrap; margin-top: 1rem;">
+                        <a href="services.html" class="btn btn-primary">طلب خدمة جديدة</a>
+                        <button onclick="loadOrders()" class="btn btn-secondary">تحديث الطلبات</button>
+                    </div>
+                </div>
+
+                <!-- Orders Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">📦 طلباتي</h2>
+                    </div>
+
+                    <div id="orders-loading" class="text-center">
+                        <div class="spinner"></div>
+                        <p>جاري تحميل الطلبات...</p>
+                    </div>
+
+                    <div id="orders-empty" style="display: none;" class="text-center">
+                        <p style="color: var(--text-muted); padding: 2rem;">لا توجد طلبات حتى الآن</p>
+                        <a href="services.html" class="btn btn-primary">اطلب خدمتك الأولى</a>
+                    </div>
+
+                    <div id="orders-table" style="display: none;">
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>رقم الطلب</th>
+                                        <th>التاريخ</th>
+                                        <th>الخدمة</th>
+                                        <th>الباقة</th>
+                                        <th>السعر</th>
+                                        <th>طريقة الدفع</th>
+                                        <th>حالة الدفع</th>
+                                        <th>حالة الطلب</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orders-tbody">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="services-grid">
+                    <div class="service-card">
+                        <span class="service-icon">📊</span>
+                        <h3>إجمالي الطلبات</h3>
+                        <div class="service-price" id="total-orders">0</div>
+                    </div>
+
+                    <div class="service-card">
+                        <span class="service-icon">✅</span>
+                        <h3>طلبات مكتملة</h3>
+                        <div class="service-price" id="completed-orders">0</div>
+                    </div>
+
+                    <div class="service-card">
+                        <span class="service-icon">⏳</span>
+                        <h3>طلبات قيد المعالجة</h3>
+                        <div class="service-price" id="processing-orders">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 SMM Store. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (isLoggedIn()) {
+                showDashboard();
+                await loadOrders();
+            } else {
+                showLoginRequired();
+            }
+        });
+
+        function showLoginRequired() {
+            document.getElementById('login-required').style.display = 'block';
+            document.getElementById('account-dashboard').style.display = 'none';
+
+            // Render Google Sign-In button
+            if (typeof google !== 'undefined' && google.accounts) {
+                google.accounts.id.renderButton(
+                    document.getElementById('g_id_signin_center'),
+                    { theme: 'filled_black', size: 'large', text: 'signin_with' }
+                );
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('login-required').style.display = 'none';
+            document.getElementById('account-dashboard').style.display = 'block';
+
+            // Display user profile
+            const user = getCurrentUser();
+            const profileHeader = document.getElementById('profile-header');
+            profileHeader.innerHTML = `
+        <img src="${user.picture}" alt="${user.name}" class="user-avatar">
+        <div class="user-info">
+          <h3>${user.name}</h3>
+          <p>${user.email}</p>
+        </div>
+        <button onclick="logout()" class="btn btn-danger">تسجيل الخروج</button>
+      `;
+        }
+
+        async function loadOrders() {
+            const loadingDiv = document.getElementById('orders-loading');
+            const emptyDiv = document.getElementById('orders-empty');
+            const tableDiv = document.getElementById('orders-table');
+            const tbody = document.getElementById('orders-tbody');
+
+            // Show loading
+            loadingDiv.style.display = 'block';
+            emptyDiv.style.display = 'none';
+            tableDiv.style.display = 'none';
+
+            try {
+                const orders = await getUserOrders();
+
+                loadingDiv.style.display = 'none';
+
+                if (orders.length === 0) {
+                    emptyDiv.style.display = 'block';
+                } else {
+                    tableDiv.style.display = 'block';
+                    tbody.innerHTML = '';
+
+                    // Populate table
+                    orders.forEach(order => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+              <td><strong>${order.orderId}</strong></td>
+              <td>${formatDate(order.timestamp)}</td>
+              <td>${getServiceNameAr(order.serviceType)}</td>
+              <td>${order.package}</td>
+              <td>${formatPrice(order.price)}</td>
+              <td>${getPaymentMethodAr(order.paymentMethod)}</td>
+              <td>${getStatusBadge(order.paymentStatus)}</td>
+              <td>${getStatusBadge(order.orderStatus)}</td>
+              <td>
+                ${order.paymentStatus === 'Pending' ?
+                                `<a href="payment-confirm.html?orderId=${order.orderId}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">تأكيد الدفع</a>` :
+                                '<span style="color: var(--text-muted);">-</span>'
+                            }
+              </td>
+            `;
+                        tbody.appendChild(row);
+                    });
+
+                    // Update statistics
+                    updateStatistics(orders);
+                }
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                showAlert('error', 'حدث خطأ في تحميل الطلبات');
+                console.error('Error loading orders:', error);
+            }
+        }
+
+        function updateStatistics(orders) {
+            const totalOrders = orders.length;
+            const completedOrders = orders.filter(o => o.orderStatus === 'Completed').length;
+            const processingOrders = orders.filter(o => o.orderStatus === 'Processing' || o.orderStatus === 'New').length;
+
+            document.getElementById('total-orders').textContent = totalOrders;
+            document.getElementById('completed-orders').textContent = completedOrders;
+            document.getElementById('processing-orders').textContent = processingOrders;
+        }
+
+        function getPaymentMethodAr(method) {
+            const methods = {
+                'bank': 'تحويل بنكي',
+                'vodafone': 'فودافون كاش',
+                'paypal': 'PayPal'
+            };
+            return methods[method] || method;
+        }
+    </script>
+</body>
+
+</html>

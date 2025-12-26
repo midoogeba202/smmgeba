@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">🔐 Admin Panel</a>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">الصفحة الرئيسية</a></li>
+                        <li><button onclick="adminLogout()" class="btn btn-danger" style="padding: 0.5rem 1rem;">تسجيل
+                                الخروج</button></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section class="form-section" id="login-section">
+        <div class="container">
+            <div class="card" style="max-width: 500px; margin: 0 auto;">
+                <div class="card-header text-center">
+                    <h2 class="card-title">🔒 تسجيل دخول المشرف</h2>
+                    <p>يرجى إدخال كلمة المرور للوصول إلى لوحة التحكم</p>
+                </div>
+
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="adminPassword">كلمة المرور</label>
+                        <input type="password" id="adminPassword" class="form-control" placeholder="أدخل كلمة المرور"
+                            required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        دخول
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Dashboard -->
+    <section class="form-section" id="admin-dashboard" style="display: none;">
+        <div class="container">
+            <div class="section-title">
+                <h1>📊 لوحة التحكم</h1>
+                <p>إدارة الطلبات والخدمات</p>
+            </div>
+
+            <!-- Statistics -->
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">📦</span>
+                    <h3>إجمالي الطلبات</h3>
+                    <div class="service-price" id="admin-total-orders">0</div>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">🆕</span>
+                    <h3>طلبات جديدة</h3>
+                    <div class="service-price" id="admin-new-orders">0</div>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">⏳</span>
+                    <h3>قيد المعالجة</h3>
+                    <div class="service-price" id="admin-processing-orders">0</div>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">✅</span>
+                    <h3>مكتملة</h3>
+                    <div class="service-price" id="admin-completed-orders">0</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="card">
+                <h3>🔍 تصفية الطلبات</h3>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div class="form-group" style="margin: 0;">
+                        <label for="filterStatus">حالة الطلب</label>
+                        <select id="filterStatus" class="form-control" onchange="filterOrders()">
+                            <option value="">الكل</option>
+                            <option value="New">جديد</option>
+                            <option value="Processing">قيد المعالجة</option>
+                            <option value="Completed">مكتمل</option>
+                            <option value="Cancelled">ملغي</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin: 0;">
+                        <label for="filterPayment">حالة الدفع</label>
+                        <select id="filterPayment" class="form-control" onchange="filterOrders()">
+                            <option value="">الكل</option>
+                            <option value="Pending">في الانتظار</option>
+                            <option value="Confirmed">مؤكد</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin: 0;">
+                        <label for="filterService">نوع الخدمة</label>
+                        <select id="filterService" class="form-control" onchange="filterOrders()">
+                            <option value="">الكل</option>
+                            <option value="followers">متابعين</option>
+                            <option value="likes">إعجابات</option>
+                            <option value="views">مشاهدات</option>
+                            <option value="management">إدارة حسابات</option>
+                        </select>
+                    </div>
+
+                    <div style="display: flex; align-items: flex-end;">
+                        <button onclick="loadAllOrders()" class="btn btn-secondary" style="width: 100%;">
+                            تحديث
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📋 جميع الطلبات</h2>
+                </div>
+
+                <div id="admin-orders-loading" class="text-center">
+                    <div class="spinner"></div>
+                    <p>جاري تحميل الطلبات...</p>
+                </div>
+
+                <div id="admin-orders-empty" style="display: none;" class="text-center">
+                    <p style="color: var(--text-muted); padding: 2rem;">لا توجد طلبات</p>
+                </div>
+
+                <div id="admin-orders-table" style="display: none;">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>التاريخ</th>
+                                    <th>العميل</th>
+                                    <th>الخدمة</th>
+                                    <th>الباقة</th>
+                                    <th>الرابط</th>
+                                    <th>السعر</th>
+                                    <th>الدفع</th>
+                                    <th>حالة الدفع</th>
+                                    <th>حالة الطلب</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-tbody">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <h3>⚡ إجراءات سريعة</h3>
+                <div class="flex gap-2" style="flex-wrap: wrap; margin-top: 1rem;">
+                    <button onclick="exportOrders()" class="btn btn-secondary">تصدير الطلبات (CSV)</button>
+                    <button onclick="showPendingPayments()" class="btn btn-warning">عرض المدفوعات المعلقة</button>
+                    <button onclick="showNewOrders()" class="btn btn-primary">عرض الطلبات الجديدة</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Details Modal (Simple) -->
+    <div id="orderModal"
+        style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto;">
+        <div class="container" style="padding: 2rem 0;">
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <div class="card-header">
+                    <h2 class="card-title">تفاصيل الطلب</h2>
+                    <button onclick="closeModal()" class="btn btn-secondary" style="float: left;">إغلاق</button>
+                </div>
+                <div id="orderModalContent">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 SMM Store Admin Panel. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Admin password (CHANGE THIS!)
+        const ADMIN_PASSWORD = 'admin123';
+
+        let allOrders = [];
+        let filteredOrders = [];
+
+        // Check if admin is logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isAdminLoggedIn()) {
+                showDashboard();
+                loadAllOrders();
+            } else {
+                showLogin();
+            }
+        });
+
+        function isAdminLoggedIn() {
+            return sessionStorage.getItem('adminLoggedIn') === 'true';
+        }
+
+        function showLogin() {
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('admin-dashboard').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('admin-dashboard').style.display = 'block';
+        }
+
+        // Handle admin login
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const password = document.getElementById('adminPassword').value;
+
+            if (password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                showDashboard();
+                loadAllOrders();
+            } else {
+                showAlert('error', 'كلمة المرور غير صحيحة');
+            }
+        });
+
+        function adminLogout() {
+            sessionStorage.removeItem('adminLoggedIn');
+            showLogin();
+        }
+
+        // Load all orders
+        async function loadAllOrders() {
+            const loadingDiv = document.getElementById('admin-orders-loading');
+            const emptyDiv = document.getElementById('admin-orders-empty');
+            const tableDiv = document.getElementById('admin-orders-table');
+
+            loadingDiv.style.display = 'block';
+            emptyDiv.style.display = 'none';
+            tableDiv.style.display = 'none';
+
+            try {
+                allOrders = await getAllOrders();
+                filteredOrders = [...allOrders];
+
+                loadingDiv.style.display = 'none';
+
+                if (allOrders.length === 0) {
+                    emptyDiv.style.display = 'block';
+                } else {
+                    tableDiv.style.display = 'block';
+                    displayOrders(filteredOrders);
+                    updateAdminStatistics(allOrders);
+                }
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                showAlert('error', 'حدث خطأ في تحميل الطلبات');
+                console.error('Error loading orders:', error);
+            }
+        }
+
+        function displayOrders(orders) {
+            const tbody = document.getElementById('admin-orders-tbody');
+            tbody.innerHTML = '';
+
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+          <td><strong>${order.orderId}</strong></td>
+          <td>${formatDate(order.timestamp)}</td>
+          <td>
+            <div>${order.userName}</div>
+            <small style="color: var(--text-muted);">${order.userEmail}</small>
+          </td>
+          <td>${getServiceNameAr(order.serviceType)}</td>
+          <td>${order.package}</td>
+          <td><a href="${order.targetUrl}" target="_blank" style="color: var(--primary-light);">رابط</a></td>
+          <td>${formatPrice(order.price)}</td>
+          <td>${getPaymentMethodAr(order.paymentMethod)}</td>
+          <td>${getStatusBadge(order.paymentStatus)}</td>
+          <td>${getStatusBadge(order.orderStatus)}</td>
+          <td>
+            <select onchange="changeOrderStatus('${order.orderId}', this.value)" class="form-control" style="padding: 0.5rem; font-size: 0.9rem;">
+              <option value="">تغيير الحالة</option>
+              <option value="New">جديد</option>
+              <option value="Processing">قيد المعالجة</option>
+              <option value="Completed">مكتمل</option>
+              <option value="Cancelled">ملغي</option>
+            </select>
+            <button onclick="viewOrderDetails('${order.orderId}')" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem; margin-top: 0.5rem; width: 100%;">
+              عرض التفاصيل
+            </button>
+          </td>
+        `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateAdminStatistics(orders) {
+            const totalOrders = orders.length;
+            const newOrders = orders.filter(o => o.orderStatus === 'New').length;
+            const processingOrders = orders.filter(o => o.orderStatus === 'Processing').length;
+            const completedOrders = orders.filter(o => o.orderStatus === 'Completed').length;
+
+            document.getElementById('admin-total-orders').textContent = totalOrders;
+            document.getElementById('admin-new-orders').textContent = newOrders;
+            document.getElementById('admin-processing-orders').textContent = processingOrders;
+            document.getElementById('admin-completed-orders').textContent = completedOrders;
+        }
+
+        async function changeOrderStatus(orderId, newStatus) {
+            if (!newStatus) return;
+
+            const success = await updateOrderStatus(orderId, newStatus);
+
+            if (success) {
+                loadAllOrders();
+            }
+        }
+
+        function filterOrders() {
+            const statusFilter = document.getElementById('filterStatus').value;
+            const paymentFilter = document.getElementById('filterPayment').value;
+            const serviceFilter = document.getElementById('filterService').value;
+
+            filteredOrders = allOrders.filter(order => {
+                const statusMatch = !statusFilter || order.orderStatus === statusFilter;
+                const paymentMatch = !paymentFilter || order.paymentStatus === paymentFilter;
+                const serviceMatch = !serviceFilter || order.serviceType === serviceFilter;
+
+                return statusMatch && paymentMatch && serviceMatch;
+            });
+
+            displayOrders(filteredOrders);
+        }
+
+        function viewOrderDetails(orderId) {
+            const order = allOrders.find(o => o.orderId === orderId);
+
+            if (!order) return;
+
+            const modalContent = document.getElementById('orderModalContent');
+            modalContent.innerHTML = `
+        <div style="padding: 1rem 0;">
+          <h3>رقم الطلب: ${order.orderId}</h3>
+          <hr style="border-color: var(--dark-border); margin: 1rem 0;">
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>العميل:</strong> ${order.userName} (${order.userEmail})
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>التاريخ:</strong> ${formatDate(order.timestamp)}
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>الخدمة:</strong> ${getServiceNameAr(order.serviceType)}
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>الباقة:</strong> ${order.package}
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>الكمية:</strong> ${order.quantity}
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>الرابط المستهدف:</strong><br>
+            <a href="${order.targetUrl}" target="_blank" style="color: var(--primary-light); word-break: break-all;">${order.targetUrl}</a>
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>السعر:</strong> ${formatPrice(order.price)}
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>طريقة الدفع:</strong> ${getPaymentMethodAr(order.paymentMethod)}
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>حالة الدفع:</strong> ${getStatusBadge(order.paymentStatus)}
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <strong>حالة الطلب:</strong> ${getStatusBadge(order.orderStatus)}
+          </div>
+          
+          ${order.screenshot ? `
+            <div style="margin-bottom: 1rem;">
+              <strong>صورة الإيصال:</strong><br>
+              <a href="${order.screenshot}" target="_blank" style="color: var(--primary-light);">عرض الصورة</a>
+            </div>
+          ` : ''}
+          
+          ${order.transactionRef ? `
+            <div style="margin-bottom: 1rem;">
+              <strong>رقم العملية:</strong> ${order.transactionRef}
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+            document.getElementById('orderModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function showPendingPayments() {
+            document.getElementById('filterPayment').value = 'Pending';
+            filterOrders();
+        }
+
+        function showNewOrders() {
+            document.getElementById('filterStatus').value = 'New';
+            filterOrders();
+        }
+
+        function exportOrders() {
+            // Simple CSV export
+            let csv = 'رقم الطلب,التاريخ,العميل,البريد,الخدمة,الباقة,السعر,الدفع,حالة الدفع,حالة الطلب\n';
+
+            filteredOrders.forEach(order => {
+                csv += `${order.orderId},${formatDate(order.timestamp)},${order.userName},${order.userEmail},${getServiceNameAr(order.serviceType)},${order.package},${order.price},${getPaymentMethodAr(order.paymentMethod)},${order.paymentStatus},${order.orderStatus}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `orders_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+
+            showAlert('success', 'تم تصدير الطلبات بنجاح');
+        }
+
+        function getPaymentMethodAr(method) {
+            const methods = {
+                'bank': 'تحويل بنكي',
+                'vodafone': 'فودافون كاش',
+                'paypal': 'PayPal'
+            };
+            return methods[method] || method;
+        }
+    </script>
+</body>
+
+</html>

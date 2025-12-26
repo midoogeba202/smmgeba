@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>متجر خدمات السوشيال ميديا - الصفحة الرئيسية</title>
+  <meta name="description" content="أفضل متجر لخدمات السوشيال ميديا - متابعين، إعجابات، مشاهدات، وإدارة حسابات بأسعار منافسة">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Google Sign-In -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">🚀 SMM Store</a>
+        
+        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        
+        <nav>
+          <ul>
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="services.html">الخدمات</a></li>
+            <li><a href="contact.html">اتصل بنا</a></li>
+            <li><a href="account.html">حسابي</a></li>
+            <li class="auth-buttons">
+              <div id="g_id_onload"
+                   data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"
+                   data-callback="handleCredentialResponse"
+                   data-auto_prompt="false">
+              </div>
+              <div class="g_id_signin"
+                   data-type="standard"
+                   data-size="large"
+                   data-theme="filled_black"
+                   data-text="signin_with"
+                   data-shape="rectangular"
+                   data-logo_alignment="left">
+              </div>
+            </li>
+            <li class="user-profile" style="display: none;"></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>🌟 أفضل خدمات السوشيال ميديا</h1>
+      <p>احصل على متابعين حقيقيين، إعجابات، مشاهدات، وإدارة احترافية لحساباتك</p>
+      <div class="hero-buttons">
+        <a href="services.html" class="btn btn-primary">اطلب الآن</a>
+        <a href="#services" class="btn btn-secondary">تصفح الخدمات</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services-section" id="services">
+    <div class="container">
+      <div class="section-title">
+        <h2>خدماتنا المميزة</h2>
+        <p>نقدم لك أفضل الخدمات بأسعار منافسة وجودة عالية</p>
+      </div>
+
+      <div class="services-grid">
+        <!-- Followers Service -->
+        <div class="service-card">
+          <span class="service-icon">👥</span>
+          <h3>متابعين إنستغرام</h3>
+          <p>احصل على متابعين حقيقيين ونشطين لحسابك على إنستغرام</p>
+          <div class="service-price">من 50 جنيه</div>
+          <a href="services.html?service=followers" class="btn btn-primary">اطلب الآن</a>
+        </div>
+
+        <!-- Likes Service -->
+        <div class="service-card">
+          <span class="service-icon">❤️</span>
+          <h3>إعجابات إنستغرام</h3>
+          <p>زيادة الإعجابات على منشوراتك بشكل طبيعي وآمن</p>
+          <div class="service-price">من 30 جنيه</div>
+          <a href="services.html?service=likes" class="btn btn-primary">اطلب الآن</a>
+        </div>
+
+        <!-- Views Service -->
+        <div class="service-card">
+          <span class="service-icon">👁️</span>
+          <h3>مشاهدات يوتيوب</h3>
+          <p>زيادة مشاهدات فيديوهاتك على يوتيوب بجودة عالية</p>
+          <div class="service-price">من 100 جنيه</div>
+          <a href="services.html?service=views" class="btn btn-primary">اطلب الآن</a>
+        </div>
+
+        <!-- Management Service -->
+        <div class="service-card">
+          <span class="service-icon">⚙️</span>
+          <h3>إدارة الحسابات</h3>
+          <p>إدارة احترافية لحساباتك على مختلف منصات التواصل</p>
+          <div class="service-price">من 200 جنيه/شهر</div>
+          <a href="services.html?service=management" class="btn btn-primary">اطلب الآن</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="services-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>لماذا تختارنا؟</h2>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="service-icon">⚡</span>
+          <h3>سرعة في التنفيذ</h3>
+          <p>نبدأ في تنفيذ طلبك فوراً بعد تأكيد الدفع</p>
+        </div>
+
+        <div class="service-card">
+          <span class="service-icon">🔒</span>
+          <h3>أمان وخصوصية</h3>
+          <p>نحافظ على خصوصية بياناتك وأمان حساباتك</p>
+        </div>
+
+        <div class="service-card">
+          <span class="service-icon">💎</span>
+          <h3>جودة عالية</h3>
+          <p>نقدم خدمات بجودة عالية ومتابعين حقيقيين</p>
+        </div>
+
+        <div class="service-card">
+          <span class="service-icon">💬</span>
+          <h3>دعم فني 24/7</h3>
+          <p>فريق الدعم متواجد دائماً لمساعدتك</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="hero">
+    <div class="container">
+      <h2>جاهز للبدء؟</h2>
+      <p>انضم إلى آلاف العملاء الراضين واحصل على خدماتنا المميزة</p>
+      <div class="hero-buttons">
+        <a href="services.html" class="btn btn-primary">ابدأ الآن</a>
+        <a href="contact.html" class="btn btn-secondary">تواصل معنا</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>عن المتجر</h3>
+          <p>نحن متخصصون في تقديم أفضل خدمات السوشيال ميديا بأسعار منافسة وجودة عالية</p>
+        </div>
+
+        <div class="footer-section">
+          <h3>روابط سريعة</h3>
+          <ul>
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="services.html">الخدمات</a></li>
+            <li><a href="contact.html">اتصل بنا</a></li>
+            <li><a href="account.html">حسابي</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>خدماتنا</h3>
+          <ul>
+            <li><a href="services.html?service=followers">متابعين</a></li>
+            <li><a href="services.html?service=likes">إعجابات</a></li>
+            <li><a href="services.html?service=views">مشاهدات</a></li>
+            <li><a href="services.html?service=management">إدارة حسابات</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>تواصل معنا</h3>
+          <ul>
+            <li>📧 info@smmstore.com</li>
+            <li>📱 +20 123 456 7890</li>
+            <li>🌐 www.smmstore.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 SMM Store. جميع الحقوق محفوظة.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>

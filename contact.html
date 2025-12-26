@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اتصل بنا - متجر خدمات السوشيال ميديا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">🚀 SMM Store</a>
+
+                <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="services.html">الخدمات</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="account.html">حسابي</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contact Section -->
+    <section class="form-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h1>📧 اتصل بنا</h1>
+                <p>نحن هنا لمساعدتك! تواصل معنا في أي وقت</p>
+            </div>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                <!-- Contact Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">إرسال رسالة</h2>
+                    </div>
+
+                    <form id="contactForm">
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label for="name">الاسم *</label>
+                            <input type="text" id="name" class="form-control" placeholder="اسمك الكامل" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني *</label>
+                            <input type="email" id="email" class="form-control" placeholder="example@email.com"
+                                required>
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="form-group">
+                            <label for="subject">الموضوع *</label>
+                            <select id="subject" class="form-control" required>
+                                <option value="">اختر الموضوع</option>
+                                <option value="استفسار عام">استفسار عام</option>
+                                <option value="استفسار عن خدمة">استفسار عن خدمة</option>
+                                <option value="مشكلة في طلب">مشكلة في طلب</option>
+                                <option value="استفسار عن الدفع">استفسار عن الدفع</option>
+                                <option value="شكوى">شكوى</option>
+                                <option value="اقتراح">اقتراح</option>
+                                <option value="أخرى">أخرى</option>
+                            </select>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="form-group">
+                            <label for="message">الرسالة *</label>
+                            <textarea id="message" class="form-control" rows="6" placeholder="اكتب رسالتك هنا..."
+                                required></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            إرسال الرسالة
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Information -->
+                <div>
+                    <div class="card">
+                        <h3>📞 معلومات الاتصال</h3>
+                        <div style="margin-top: 1.5rem;">
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: var(--primary-light); margin-bottom: 0.5rem;">📧 البريد الإلكتروني
+                                </h4>
+                                <p style="color: var(--text-secondary);">info@smmstore.com</p>
+                                <p style="color: var(--text-secondary);">support@smmstore.com</p>
+                            </div>
+
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: var(--primary-light); margin-bottom: 0.5rem;">📱 الهاتف</h4>
+                                <p style="color: var(--text-secondary);">+20 123 456 7890</p>
+                                <p style="color: var(--text-secondary);">متاح من 9 صباحاً - 11 مساءً</p>
+                            </div>
+
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: var(--primary-light); margin-bottom: 0.5rem;">⏰ ساعات العمل</h4>
+                                <p style="color: var(--text-secondary);">السبت - الخميس: 9:00 ص - 11:00 م</p>
+                                <p style="color: var(--text-secondary);">الجمعة: 2:00 م - 11:00 م</p>
+                            </div>
+
+                            <div>
+                                <h4 style="color: var(--primary-light); margin-bottom: 0.5rem;">🌐 وسائل التواصل</h4>
+                                <div class="flex gap-2" style="margin-top: 1rem;">
+                                    <a href="#" class="btn btn-secondary" style="padding: 0.7rem 1.2rem;">Facebook</a>
+                                    <a href="#" class="btn btn-secondary" style="padding: 0.7rem 1.2rem;">Instagram</a>
+                                    <a href="#" class="btn btn-secondary" style="padding: 0.7rem 1.2rem;">Twitter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card"
+                        style="margin-top: 2rem; background: rgba(99, 102, 241, 0.1); border-color: var(--primary-color);">
+                        <h3>💡 نصيحة</h3>
+                        <p style="color: var(--text-secondary); margin: 0;">للحصول على رد أسرع، يرجى تضمين رقم الطلب (إن
+                            وجد) في رسالتك.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="card" style="margin-top: 3rem;">
+                <div class="card-header">
+                    <h2 class="card-title">❓ الأسئلة الشائعة</h2>
+                </div>
+
+                <div style="display: grid; gap: 1.5rem;">
+                    <div>
+                        <h4 style="color: var(--primary-light);">كم من الوقت يستغرق تنفيذ الطلب؟</h4>
+                        <p style="color: var(--text-secondary);">نبدأ في تنفيذ طلبك خلال 24 ساعة من تأكيد الدفع. مدة
+                            التنفيذ تعتمد على نوع الخدمة والكمية المطلوبة.</p>
+                    </div>
+
+                    <div>
+                        <h4 style="color: var(--primary-light);">هل الخدمات آمنة لحساباتي؟</h4>
+                        <p style="color: var(--text-secondary);">نعم، جميع خدماتنا آمنة 100% ونستخدم طرق طبيعية لا تخالف
+                            سياسات المنصات.</p>
+                    </div>
+
+                    <div>
+                        <h4 style="color: var(--primary-light);">ما هي طرق الدفع المتاحة؟</h4>
+                        <p style="color: var(--text-secondary);">نقبل التحويل البنكي، فودافون كاش، وPayPal.</p>
+                    </div>
+
+                    <div>
+                        <h4 style="color: var(--primary-light);">هل يمكنني إلغاء طلبي؟</h4>
+                        <p style="color: var(--text-secondary);">يمكنك إلغاء الطلب قبل البدء في التنفيذ. بعد البدء في
+                            التنفيذ، لا يمكن الإلغاء ولكن يمكن إيقاف الخدمة.</p>
+                    </div>
+
+                    <div>
+                        <h4 style="color: var(--primary-light);">هل تقدمون ضمان على الخدمات؟</h4>
+                        <p style="color: var(--text-secondary);">نعم، نقدم ضمان 30 يوم على جميع خدماتنا. إذا حدث أي
+                            انخفاض، سنعوضك مجاناً.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 SMM Store. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Pre-fill email if user is logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isLoggedIn()) {
+                const user = getCurrentUser();
+                document.getElementById('name').value = user.name;
+                document.getElementById('email').value = user.email;
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const contactData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            const success = await submitContactForm(contactData);
+
+            if (success) {
+                // Reset form
+                document.getElementById('contactForm').reset();
+            }
+        });
+    </script>
+</body>
+
+</html>

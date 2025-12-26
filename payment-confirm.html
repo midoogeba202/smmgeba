@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد الدفع - متجر خدمات السوشيال ميديا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">🚀 SMM Store</a>
+
+                <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="services.html">الخدمات</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="account.html">حسابي</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Payment Confirmation Form -->
+    <section class="form-section">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">💳 تأكيد الدفع</h2>
+                    <p>يرجى إرسال تفاصيل الدفع لتأكيد طلبك</p>
+                </div>
+
+                <div class="alert alert-info">
+                    <p><strong>ملاحظة مهمة:</strong> بعد إتمام عملية الدفع، يرجى إرسال إثبات الدفع من خلال هذا النموذج
+                        لتأكيد طلبك والبدء في التنفيذ.</p>
+                </div>
+
+                <form id="paymentForm">
+                    <!-- Order ID -->
+                    <div class="form-group">
+                        <label for="orderId">رقم الطلب *</label>
+                        <input type="text" id="orderId" class="form-control" placeholder="ORD1234567890" required
+                            readonly>
+                        <small style="color: var(--text-muted);">رقم الطلب الذي تم إرساله إليك</small>
+                    </div>
+
+                    <!-- Payment Method Confirmation -->
+                    <div class="form-group">
+                        <label for="paymentMethod">طريقة الدفع المستخدمة *</label>
+                        <select id="paymentMethod" class="form-control" required>
+                            <option value="">اختر طريقة الدفع</option>
+                            <option value="bank">تحويل بنكي</option>
+                            <option value="vodafone">فودافون كاش</option>
+                            <option value="paypal">PayPal</option>
+                        </select>
+                    </div>
+
+                    <!-- Transaction Reference -->
+                    <div class="form-group">
+                        <label for="transactionRef">رقم العملية / المرجع</label>
+                        <input type="text" id="transactionRef" class="form-control" placeholder="مثال: TXN123456789">
+                        <small style="color: var(--text-muted);">رقم العملية أو المرجع من إيصال الدفع</small>
+                    </div>
+
+                    <!-- Payment Screenshot URL -->
+                    <div class="form-group">
+                        <label for="screenshot">رابط صورة الإيصال</label>
+                        <input type="url" id="screenshot" class="form-control"
+                            placeholder="https://example.com/receipt.jpg">
+                        <small style="color: var(--text-muted);">يمكنك رفع الصورة على Google Drive أو Imgur ولصق الرابط
+                            هنا</small>
+                    </div>
+
+                    <!-- Upload Instructions -->
+                    <div class="card" style="background: rgba(99, 102, 241, 0.1);">
+                        <h4>📸 كيفية رفع صورة الإيصال:</h4>
+                        <ol style="margin-right: 1.5rem; color: var(--text-secondary);">
+                            <li>التقط صورة واضحة لإيصال الدفع</li>
+                            <li>ارفع الصورة على Google Drive أو Imgur</li>
+                            <li>احصل على رابط مشاركة الصورة</li>
+                            <li>الصق الرابط في الحقل أعلاه</li>
+                        </ol>
+                        <p style="margin: 0;"><strong>أو</strong> يمكنك إرسال الصورة عبر <a href="contact.html"
+                                style="color: var(--primary-light);">صفحة الاتصال</a> مع ذكر رقم الطلب</p>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="form-group">
+                        <label for="notes">ملاحظات إضافية</label>
+                        <textarea id="notes" class="form-control" rows="3"
+                            placeholder="أي ملاحظات أو تفاصيل إضافية"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        تأكيد الدفع
+                    </button>
+                </form>
+
+                <!-- Success Message -->
+                <div id="success-message" class="alert alert-success" style="display: none;">
+                    <h3>✅ تم تأكيد الدفع بنجاح!</h3>
+                    <p>شكراً لك! تم استلام تأكيد الدفع وسيتم مراجعة طلبك والبدء في التنفيذ خلال 24 ساعة.</p>
+                    <div class="flex gap-2" style="margin-top: 1rem;">
+                        <a href="account.html" class="btn btn-primary">عرض طلباتي</a>
+                        <a href="services.html" class="btn btn-secondary">طلب خدمة جديدة</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Information Cards -->
+            <div class="services-grid" style="margin-top: 2rem;">
+                <div class="service-card">
+                    <span class="service-icon">🏦</span>
+                    <h3>تحويل بنكي</h3>
+                    <p><strong>رقم الحساب:</strong> 1234567890</p>
+                    <p><strong>البنك:</strong> البنك الأهلي المصري</p>
+                    <p><strong>الاسم:</strong> SMM Store</p>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">📱</span>
+                    <h3>فودافون كاش</h3>
+                    <p><strong>رقم المحفظة:</strong> 01234567890</p>
+                    <p><strong>الاسم:</strong> SMM Store</p>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">💰</span>
+                    <h3>PayPal</h3>
+                    <p><strong>البريد الإلكتروني:</strong></p>
+                    <p>payment@smmstore.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 SMM Store. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Get order ID from URL parameter
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('orderId');
+
+            if (orderId) {
+                document.getElementById('orderId').value = orderId;
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const orderId = document.getElementById('orderId').value;
+            const transactionRef = document.getElementById('transactionRef').value;
+            const screenshot = document.getElementById('screenshot').value;
+
+            if (!orderId) {
+                showAlert('error', 'يرجى إدخال رقم الطلب');
+                return;
+            }
+
+            const paymentData = {
+                orderId,
+                transactionRef,
+                screenshot
+            };
+
+            const success = await submitPayment(paymentData);
+
+            if (success) {
+                // Hide form and show success message
+                document.getElementById('paymentForm').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

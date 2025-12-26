@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب خدمة - متجر خدمات السوشيال ميديا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">🚀 SMM Store</a>
+
+                <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="services.html">الخدمات</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="account.html">حسابي</a></li>
+                        <li class="auth-buttons">
+                            <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"
+                                data-callback="handleCredentialResponse" data-auto_prompt="false">
+                            </div>
+                            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="filled_black"
+                                data-text="signin_with" data-shape="rectangular" data-logo_alignment="left">
+                            </div>
+                        </li>
+                        <li class="user-profile" style="display: none;"></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Service Request Form -->
+    <section class="form-section">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📝 طلب خدمة جديدة</h2>
+                    <p>املأ النموذج أدناه لطلب الخدمة المطلوبة</p>
+                </div>
+
+                <div id="login-required" class="alert alert-info" style="display: none;">
+                    <p>يجب تسجيل الدخول أولاً لطلب الخدمات</p>
+                    <div id="g_id_signin_inline"></div>
+                </div>
+
+                <form id="serviceForm" style="display: none;">
+                    <!-- Service Type -->
+                    <div class="form-group">
+                        <label for="serviceType">نوع الخدمة *</label>
+                        <select id="serviceType" class="form-control" required>
+                            <option value="">اختر نوع الخدمة</option>
+                            <option value="followers">متابعين إنستغرام</option>
+                            <option value="likes">إعجابات إنستغرام</option>
+                            <option value="views">مشاهدات يوتيوب</option>
+                            <option value="management">إدارة حسابات</option>
+                        </select>
+                    </div>
+
+                    <!-- Package -->
+                    <div class="form-group">
+                        <label for="package">الباقة *</label>
+                        <select id="package" class="form-control" required>
+                            <option value="">اختر الباقة</option>
+                        </select>
+                    </div>
+
+                    <!-- Target URL -->
+                    <div class="form-group">
+                        <label for="targetUrl">رابط الحساب أو المنشور *</label>
+                        <input type="url" id="targetUrl" class="form-control"
+                            placeholder="https://instagram.com/username" required>
+                        <small style="color: var(--text-muted);">الصق رابط حسابك أو المنشور المراد زيادة التفاعل
+                            عليه</small>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div class="form-group">
+                        <label for="quantity">الكمية *</label>
+                        <input type="number" id="quantity" class="form-control" min="100" value="1000" required>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="form-group">
+                        <label for="paymentMethod">طريقة الدفع *</label>
+                        <select id="paymentMethod" class="form-control" required>
+                            <option value="">اختر طريقة الدفع</option>
+                            <option value="bank">تحويل بنكي</option>
+                            <option value="vodafone">فودافون كاش</option>
+                            <option value="paypal">PayPal</option>
+                        </select>
+                    </div>
+
+                    <!-- Price Display -->
+                    <div class="card" style="background: rgba(99, 102, 241, 0.1); border-color: var(--primary-color);">
+                        <h3>الإجمالي: <span id="totalPrice">0</span> جنيه</h3>
+                    </div>
+
+                    <!-- Payment Instructions -->
+                    <div id="paymentInstructions" class="alert alert-info" style="display: none;">
+                        <h4>معلومات الدفع:</h4>
+                        <div id="paymentDetails"></div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        إرسال الطلب
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 SMM Store. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Package pricing data
+        const packages = {
+            followers: [
+                { name: '1000 متابع', quantity: 1000, price: 50 },
+                { name: '2500 متابع', quantity: 2500, price: 100 },
+                { name: '5000 متابع', quantity: 5000, price: 180 },
+                { name: '10000 متابع', quantity: 10000, price: 320 }
+            ],
+            likes: [
+                { name: '1000 إعجاب', quantity: 1000, price: 30 },
+                { name: '2500 إعجاب', quantity: 2500, price: 65 },
+                { name: '5000 إعجاب', quantity: 5000, price: 110 },
+                { name: '10000 إعجاب', quantity: 10000, price: 200 }
+            ],
+            views: [
+                { name: '10000 مشاهدة', quantity: 10000, price: 100 },
+                { name: '25000 مشاهدة', quantity: 25000, price: 220 },
+                { name: '50000 مشاهدة', quantity: 50000, price: 400 },
+                { name: '100000 مشاهدة', quantity: 100000, price: 750 }
+            ],
+            management: [
+                { name: 'باقة شهرية - حساب واحد', quantity: 1, price: 200 },
+                { name: 'باقة شهرية - حسابين', quantity: 2, price: 350 },
+                { name: 'باقة شهرية - 3 حسابات', quantity: 3, price: 500 }
+            ]
+        };
+
+        // Payment information
+        const paymentInfo = {
+            bank: `
+        <p><strong>رقم الحساب:</strong> 1234567890</p>
+        <p><strong>اسم البنك:</strong> البنك الأهلي المصري</p>
+        <p><strong>اسم المستفيد:</strong> SMM Store</p>
+        <p>بعد التحويل، يرجى إرسال صورة الإيصال في صفحة تأكيد الدفع</p>
+      `,
+            vodafone: `
+        <p><strong>رقم المحفظة:</strong> 01234567890</p>
+        <p><strong>الاسم:</strong> SMM Store</p>
+        <p>بعد التحويل، يرجى إرسال رقم العملية في صفحة تأكيد الدفع</p>
+      `,
+            paypal: `
+        <p><strong>البريد الإلكتروني:</strong> payment@smmstore.com</p>
+        <p>بعد الدفع، يرجى إرسال رقم المعاملة في صفحة تأكيد الدفع</p>
+      `
+        };
+
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isLoggedIn()) {
+                document.getElementById('serviceForm').style.display = 'block';
+                document.getElementById('login-required').style.display = 'none';
+
+                // Check for service parameter in URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const service = urlParams.get('service');
+                if (service && packages[service]) {
+                    document.getElementById('serviceType').value = service;
+                    updatePackages();
+                }
+            } else {
+                document.getElementById('serviceForm').style.display = 'none';
+                document.getElementById('login-required').style.display = 'block';
+
+                // Render Google Sign-In button
+                google.accounts.id.renderButton(
+                    document.getElementById('g_id_signin_inline'),
+                    { theme: 'filled_black', size: 'large', text: 'signin_with' }
+                );
+            }
+        });
+
+        // Update packages based on service type
+        document.getElementById('serviceType').addEventListener('change', updatePackages);
+
+        function updatePackages() {
+            const serviceType = document.getElementById('serviceType').value;
+            const packageSelect = document.getElementById('package');
+
+            packageSelect.innerHTML = '<option value="">اختر الباقة</option>';
+
+            if (serviceType && packages[serviceType]) {
+                packages[serviceType].forEach((pkg, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${pkg.name} - ${pkg.price} جنيه`;
+                    option.dataset.price = pkg.price;
+                    option.dataset.quantity = pkg.quantity;
+                    packageSelect.appendChild(option);
+                });
+            }
+
+            updatePrice();
+        }
+
+        // Update price
+        document.getElementById('package').addEventListener('change', updatePrice);
+        document.getElementById('quantity').addEventListener('input', updatePrice);
+
+        function updatePrice() {
+            const packageSelect = document.getElementById('package');
+            const selectedOption = packageSelect.options[packageSelect.selectedIndex];
+
+            if (selectedOption && selectedOption.dataset.price) {
+                const price = parseFloat(selectedOption.dataset.price);
+                document.getElementById('totalPrice').textContent = price;
+            } else {
+                document.getElementById('totalPrice').textContent = '0';
+            }
+        }
+
+        // Show payment instructions
+        document.getElementById('paymentMethod').addEventListener('change', (e) => {
+            const method = e.target.value;
+            const instructionsDiv = document.getElementById('paymentInstructions');
+            const detailsDiv = document.getElementById('paymentDetails');
+
+            if (method && paymentInfo[method]) {
+                detailsDiv.innerHTML = paymentInfo[method];
+                instructionsDiv.style.display = 'block';
+            } else {
+                instructionsDiv.style.display = 'none';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('serviceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const serviceType = document.getElementById('serviceType').value;
+            const packageIndex = document.getElementById('package').value;
+            const targetUrl = document.getElementById('targetUrl').value;
+            const quantity = document.getElementById('quantity').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const price = document.getElementById('totalPrice').textContent;
+
+            const packageSelect = document.getElementById('package');
+            const packageName = packageSelect.options[packageSelect.selectedIndex].text;
+
+            const orderData = {
+                serviceType,
+                package: packageName,
+                targetUrl,
+                quantity,
+                price,
+                paymentMethod
+            };
+
+            await submitOrder(orderData);
+        });
+    </script>
+</body>
+
+</html>
